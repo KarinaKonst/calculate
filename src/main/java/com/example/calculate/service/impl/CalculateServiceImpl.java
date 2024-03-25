@@ -24,7 +24,6 @@ public class CalculateServiceImpl implements CalculateService {
     @Override
     public Double calculateWithDate(double averageSalary, LocalDate start, LocalDate end) {
 
-        int weekends = 0;
         int holidays = 0;
         addHolidays();
         Calendar startDate = Calendar.getInstance();
@@ -33,9 +32,7 @@ public class CalculateServiceImpl implements CalculateService {
         Calendar endDate = Calendar.getInstance();
         endDate.set(end.getYear(), end.getMonthValue() - 1, end.getDayOfMonth());
         while (startDate.before(endDate)) {
-            if (isWeekend(startDate)) {
-                weekends++;
-            }
+
             for (Calendar a : dateHolidays) {
                 if (isHolidays(startDate, a)) {
                     holidays++;
@@ -52,10 +49,6 @@ public class CalculateServiceImpl implements CalculateService {
         return date.get(Calendar.DAY_OF_MONTH) == holidayDate.get(Calendar.DAY_OF_MONTH) && date.get(Calendar.MONTH) == holidayDate.get(Calendar.MONTH);
 
 
-    }
-
-    private static boolean isWeekend(Calendar date) {
-        return (date.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || date.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY);
     }
 
     private void addHolidays() {
